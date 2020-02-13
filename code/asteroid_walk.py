@@ -624,7 +624,7 @@ def class_def_stmt(node):
         elif member[0] == 'unify':
             (UNIFY, (ID, member_id), function_value) = member
             state.symbol_table.enter_sym(member_id, ('integer', member_ix))
-            class_memory.append(function_value)
+            class_memory.append(walk(function_value))
             member_names.append(member_id)
         else:
             raise ValueError("unsupported class member '{}'".format(member[0]))
