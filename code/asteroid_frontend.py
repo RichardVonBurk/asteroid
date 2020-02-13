@@ -439,7 +439,7 @@ class Parser:
         # functions are values bound to names
         return ('unify',
                 ('id',id_tok.value),
-                ('function', body_list))
+                ('function-decl', body_list))
 
     ###########################################################################################
     # class_stmt
@@ -954,4 +954,4 @@ class Parser:
         self.lexer.match('LAMBDA')
         body_list = self.body_defs()
 
-        return ('function', body_list)
+        return ('function-decl', body_list)

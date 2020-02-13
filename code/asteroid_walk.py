@@ -270,7 +270,7 @@ def store_at_ix(structure_val, index, value):
 #########################################################################
 def handle_call(fval, actual_val_args):
 
-    (FUNCTION, body_list) = fval
+    (FUNCTION, body_list,env) = fval
     assert_match(FUNCTION, 'function')
 
     #lhh
@@ -304,8 +304,9 @@ def handle_call(fval, actual_val_args):
     #print("function unified with:")
     #print(unifiers)
 
-    # dynamic scoping for functions!!!
+    # static scoping for functions!!!
     save_symtab = state.symbol_table.get_config()
+    state.symbol_table.set_config(env)
     state.symbol_table.push_scope({})
     declare_formal_args(unifiers)
 
@@ -994,6 +995,7 @@ dispatch_dict = {
     'seq'           : lambda node : ('seq', walk(node[1]), walk(node[2])),
     'none'          : lambda node : node,
     'nil'           : lambda node : node,
+    'function-decl' : lambda node : ('function',node[1],state.symbol_table.get_config()),
     'function'      : lambda node : node, # looks like a constant
     'constructor'   : lambda node : node, # looks like a constant
     'string'        : lambda node : node,
